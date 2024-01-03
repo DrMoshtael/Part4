@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title":"Technology, Values, and the Shaping of Social Reality",
+    "author":"Matt Weinberg",
+    "url":"https://bahaiworld.bahai.org/library/technology-values-and-the-shaping-of-social-reality-2/",
+    "likes":1000
+}
