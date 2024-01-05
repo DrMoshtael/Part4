@@ -17,9 +17,9 @@ beforeEach(async () => {
 
 test('notes are returned as json', async () => {
     await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+        .get('/api/blogs')
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 })
 
 test('all blogs are returned', async () => {
@@ -39,7 +39,7 @@ test('a valid blog can be added', async () => {
         author: "Michael Chan",
         url: "https://reactpatterns.com/",
         likes: 7
-      }
+    }
 
     await api
         .post('/api/blogs')
@@ -57,6 +57,33 @@ test('a valid blog can be added', async () => {
 test('missing likes defaults to zero', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body[1].likes).toBe(0)
+})
+
+test('a missing title results in 400', async () => {
+    const blog = {
+        author: "Edsger W. Dijkstra",
+        url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
+        likes: 5
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(400)
+
+})
+
+test('a missing url results in 400', async () => {
+    const blog = {
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        likes: 12
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(400)
 })
 
 afterAll(async () => {
