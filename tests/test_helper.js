@@ -10,8 +10,7 @@ const initialBlogs = [
     {
         "title": "The Crisis of Identity",
         "author": "Shahrzad Sabet",
-        "url":"https://bahaiworld.bahai.org/library/the-crisis-of-identity/",
-        "likes":950
+        "url":"https://bahaiworld.bahai.org/library/the-crisis-of-identity/"
     }
 ]
 

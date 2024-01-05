@@ -54,6 +54,11 @@ test('a valid blog can be added', async () => {
     expect(titles).toContain('React patterns')
 })
 
+test('missing likes defaults to zero', async () => {
+    const response = await api.get('/api/blogs')
+    expect(response.body[1].likes).toBe(0)
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
