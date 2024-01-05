@@ -33,6 +33,27 @@ test('unique identifier property is named id', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
+test('a valid blog can be added', async () => {
+    const blog = {
+        title: "React patterns",
+        author: "Michael Chan",
+        url: "https://reactpatterns.com/",
+        likes: 7
+      }
+
+    await api
+        .post('/api/blogs')
+        .send(blog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAfter = await helper.blogsInDb()
+
+    expect(blogsAfter).toHaveLength(helper.initialBlogs.length + 1)
+    const titles = blogsAfter.map(n => n.title)
+    expect(titles).toContain('React patterns')
+})
+
 afterAll(async () => {
     await mongoose.connection.close()
 })
