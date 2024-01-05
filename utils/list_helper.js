@@ -39,9 +39,7 @@ const mostBlogs = (blogs) => {
         )
         .value()
 
-    logger.info('freq', frequencies)
     pop_author = _.maxBy(Object.keys(frequencies), author => frequencies[author]) //Parameter 1: Create array of authors; parameter 2: return frequency of each author; returns max frequency
-    logger.info('auth', pop_author)
 
     return { "author": pop_author, "blogs": frequencies[pop_author] }
 
@@ -59,9 +57,7 @@ const mostLikes = (blogs) => {
             return obj
         }, {})
         .value()
-    logger.info(summedLikes)
     const pop_author = _.maxBy(Object.keys(summedLikes), author => summedLikes[author])
-    logger.info(pop_author)
     return {"author": pop_author, "likes": summedLikes[pop_author]}
 }
 
