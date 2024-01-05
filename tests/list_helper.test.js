@@ -128,3 +128,23 @@ const blogs = [
         })
     })
   })
+
+  describe('Author with most likes', () => {
+    test('when the array is empty returns 0', () => {
+        expect(listHelper.mostLikes([])).toBe(0)
+    })
+
+    test('when there is a single entry returns that author', () => {
+        expect(listHelper.mostLikes([blog1])).toEqual({
+            "author": "Matt Weinberg",
+            "likes": 1000
+        })
+    })
+
+    test('when there are multiple entries returns most liked author', () => {
+        expect(listHelper.mostLikes(blogs)).toEqual({
+            "author": "Edsger W. Dijkstra",
+            "likes": 17
+        })
+    })
+  })

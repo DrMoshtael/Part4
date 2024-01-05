@@ -40,16 +40,35 @@ const mostBlogs = (blogs) => {
         .value()
 
     logger.info('freq', frequencies)
-    pop_author = _.maxBy(Object.keys(frequencies), author => frequencies[author]) 
+    pop_author = _.maxBy(Object.keys(frequencies), author => frequencies[author]) //Parameter 1: Create array of authors; parameter 2: return frequency of each author; returns max frequency
     logger.info('auth', pop_author)
 
     return { "author": pop_author, "blogs": frequencies[pop_author] }
 
 }
 
+const mostLikes = (blogs) => {
+    if (_.isEmpty(blogs)) return 0
+
+    const summedLikes = _.chain(blogs)
+        .map(n => {
+            return {[n.author] : n.likes} //Using computed property name
+        })
+        .reduce((obj, ele) => {
+            obj[Object.keys(ele)[0]] = (obj[Object.keys(ele)[0]] || 0) + Object.values(ele)[0]
+            return obj
+        }, {})
+        .value()
+    logger.info(summedLikes)
+    const pop_author = _.maxBy(Object.keys(summedLikes), author => summedLikes[author])
+    logger.info(pop_author)
+    return {"author": pop_author, "likes": summedLikes[pop_author]}
+}
+
 module.exports = {
     dummy,
     totalLikes,
     favouriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
