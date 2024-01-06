@@ -11,6 +11,12 @@ const initialBlogs = [
         title: "The Crisis of Identity",
         author: "Shahrzad Sabet",
         url:"https://bahaiworld.bahai.org/library/the-crisis-of-identity/"
+    },
+    {
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
+        likes: 12,
     }
 ]
 
