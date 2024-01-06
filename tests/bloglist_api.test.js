@@ -102,6 +102,28 @@ describe('deletion of a note', () => {
     })
 })
 
+describe('updating a blog', () => {
+    test('a valid update is successful', async () => {
+        const updated_blog = {
+            title:"Technology, Values, and the Shaping of Social Reality",
+            author:"Matt Weinberg",
+            url:"https://bahaiworld.bahai.org/library/technology-values-and-the-shaping-of-social-reality-2/",
+            likes:1001
+        }
+
+    const blogsAtStart = await helper.blogsInDb()
+
+    await api
+        .put(`/api/blogs/${blogsAtStart[0].id}`)
+        .send(updated_blog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtStart).toHaveLength(blogsAtStart.length)
+    })
+})
+
 
 afterAll(async () => {
     await mongoose.connection.close()
