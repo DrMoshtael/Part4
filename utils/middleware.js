@@ -13,18 +13,32 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.message === 'CastError') {
         return response
-        .status(400)
-        .send({ error: 'malformatted id'})
+            .status(400)
+            .send({ error: 'malformatted id' })
     } else if (error.name === 'ValidationError') {
         return response
-        .status(400)
-        .json({ error: error.message})
+            .status(400)
+            .json({ error: error.message })
+    } else if (error.name === 'JsonWebTokenError') {
+        return response.status(401).json({ error: error.message })
     }
 
     next(error)
 }
 
+const tokenExtractor = (request, response, next) => {
+    const authHeader = request.get('authorization')
+
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.replace('Bearer ', '')
+
+        request.token = token
+    }
+    next()
+}
+
 module.exports = {
     errorHandler,
-    requestLogger
+    requestLogger,
+    tokenExtractor
 }
