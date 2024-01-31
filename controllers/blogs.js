@@ -42,6 +42,50 @@ blogsRouter.post('/', async (request, response) => {
     response.status(201).json(savedBlog)
 })
 
+blogsRouter.put('/:id', async (request, response) => {
+    const { title, author, url, likes, user } = request.body
+    const new_blog = await Blog.findByIdAndUpdate(
+        request.params.id,
+        { title, author, url, likes, user },
+        { new: true, runValidators: true, context: 'query' })
+    response.status(201).json(new_blog)
+})
+
+// blogsRouter.put('/:id', async (request, response) => {
+//     const blog = await Blog.findById(request.params.id)
+
+//     const body = request.body
+//     console.log("bdy",body)
+//     if (!request.token) {
+//         return response.status(401).json({error: 'token invalid'})
+//     }
+
+//     const user = request.user
+//     console.log("usr",user)
+//     const updatedBlog = new Blog({
+//         title: body.title,
+//         author: body.author,
+//         url: body.url,
+//         likes: body.likes,
+//         user: user._id
+//     })
+//     console.log("blg",updatedBlog)
+//     if (blog.user.id.toString() === user.id.toString()) {
+//         const returnedBlog = await Blog.findByIdAndUpdate(
+//             request.params.id,
+//             updatedBlog,
+//             { new: true, runValidators: true, context: 'query' })
+        
+//         console.log("upblg",returnedBlog)
+//         // user.blogs = user.blogs.concat(updatedBlog._id)
+//         // await user.save()
+//         response.status(201).json(returnedBlog)
+//     } else {
+//         response.status(401).json( {error: 'not your blog to update'})
+//     }
+
+// })
+
 blogsRouter.delete('/:id', async (request, response) => {
     const blog = await Blog.findById(request.params.id)
     console.log('blg',blog)
@@ -59,13 +103,6 @@ blogsRouter.delete('/:id', async (request, response) => {
     }
 })
 
-blogsRouter.put('/:id', async (request, response) => {
-    const { title, author, url, likes } = request.body
-    const new_blog = await Blog.findByIdAndUpdate(
-        request.params.id,
-        { title, author, url, likes },
-        { new: true, runValidators: true, context: 'query' })
-    response.status(201).json(new_blog)
-})
+
 
 module.exports = blogsRouter

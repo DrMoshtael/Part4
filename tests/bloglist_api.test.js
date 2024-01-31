@@ -176,6 +176,27 @@ describe('addition of a new blog', () => {
     })
 })
 
+describe('updating a blog', () => {
+    test('a valid update is successful', async () => {
+        const updated_blog = {
+            title: "Technology, Values, and the Shaping of Social Reality",
+            author: "Matt Weinberg",
+            url: "https://bahaiworld.bahai.org/library/technology-values-and-the-shaping-of-social-reality-2/",
+            likes: 1001,
+        }
+
+        const blogsAtStart = await helper.blogsInDb()
+
+        await api
+            .put(`/api/blogs/${blogsAtStart[0].id}`)
+            .send(updated_blog)
+            .expect(201)
+            .expect('Content-Type', /application\/json/)
+
+        expect(blogsAtStart).toHaveLength(blogsAtStart.length)
+    })
+})
+
 describe('deletion of a blog', () => {
     test('succeeds with status code 204 if id is valid', async () => {
         //Post a blog to delete (the insertion of blogs doesn't work as it wasn't posted by a user)
@@ -205,27 +226,7 @@ describe('deletion of a blog', () => {
     })
 })
 
-describe('updating a blog', () => {
-    test('a valid update is successful', async () => {
-        const updated_blog = {
-            title: "Technology, Values, and the Shaping of Social Reality",
-            author: "Matt Weinberg",
-            url: "https://bahaiworld.bahai.org/library/technology-values-and-the-shaping-of-social-reality-2/",
-            likes: 1001
-        }
 
-        const blogsAtStart = await helper.blogsInDb()
-
-        await api
-            .put(`/api/blogs/${blogsAtStart[0].id}`)
-            .send(updated_blog)
-            .expect(201)
-            .expect('Content-Type', /application\/json/)
-
-        const blogsAtEnd = await helper.blogsInDb()
-        expect(blogsAtStart).toHaveLength(blogsAtStart.length)
-    })
-})
 
 
 afterAll(async () => {
